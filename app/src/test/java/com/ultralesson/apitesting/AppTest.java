@@ -4,11 +4,18 @@
 package com.ultralesson.apitesting;
 
 import org.testng.annotations.*;
+
+import static io.restassured.RestAssured.given;
 import static org.testng.Assert.*;
 
 public class AppTest {
-    @Test public void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+    @Test
+    public void testGetAllUsersAPI(){
+        given()
+                .when()
+                .get("https://gorest.co.in/public/v2/users")
+                .then()
+                .statusCode(200)
+                .log().body();
     }
 }
