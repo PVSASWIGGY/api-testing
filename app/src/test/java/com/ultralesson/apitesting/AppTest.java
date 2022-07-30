@@ -3,6 +3,7 @@
  */
 package com.ultralesson.apitesting;
 
+import org.hamcrest.Matchers;
 import org.testng.annotations.*;
 
 import static io.restassured.RestAssured.given;
@@ -17,7 +18,8 @@ public class AppTest {
                 .get("https://gorest.co.in/public/v2/users")
                 .then()
                 .statusCode(200)
-                .log().body();
+                .log().body()
+                .body("body",Matchers.hasSize(10));
     }
 
     @Test
@@ -29,13 +31,15 @@ public class AppTest {
                 .body("{\n" +
                         "    \"name\": \"Tenali Ramakrishna\",\n" +
                         "    \"gender\": \"male\",\n" +
-                        "    \"email\": \"tenali.ramakrishna@1.com\",\n" +
+                        "    \"email\": \"tenali.ramakrishna54@1.com\",\n" +
                         "    \"status\": \"active\"\n" +
                         "}")
                 .when()
                 .post("https://gorest.co.in/public/v2/users")
                 .then()
                 .statusCode(201)
-                .log().body();
+                .log().body()
+                .body("id", Matchers.notNullValue())
+                .body("email",Matchers.equalTo("tenali.ramakrishna54@1.com"));
     }
 }
