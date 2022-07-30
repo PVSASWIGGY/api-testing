@@ -1,5 +1,6 @@
 package com.ultralesson.apitesting;
 
+import com.ultralesson.apitesting.users.UsersClient;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
@@ -9,19 +10,19 @@ import static io.restassured.http.ContentType.JSON;
 
 public class CreateUser {
     @Test
-    public void testAddNewUser(){
+    public void createFemaleUser(){
         String body = "{\n" +
                 "    \"name\": \"Tenali Ramakrishna\",\n" +
                 "    \"gender\": \"male\",\n" +
-                "    \"email\": \"tenali.ramakrishna54@gmail.com\",\n" +
+                "    \"email\": \"tenali.ramakrishna5@gmail.com\",\n" +
                 "    \"status\": \"active\"\n" +
                 "}";
-        createUser(body)
+        new UsersClient().createUsers(body)
                 .then()
                 .statusCode(201)
                 .log().body()
                 .body("id", Matchers.notNullValue())
-                .body("email",Matchers.equalTo("tenali.ramakrishna54@gmail.com"));
+                .body("email",Matchers.equalTo("tenali.ramakrishna5@gmail.com"));
     }
 
     @Test
@@ -29,24 +30,17 @@ public class CreateUser {
         String body = "{\n" +
                 "    \"name\": \"Aditi Rao\",\n" +
                 "    \"gender\": \"male\",\n" +
-                "    \"email\": \"aditi.rao@gmail.com\",\n" +
+                "    \"email\": \"aditi.rao1@gmail.com\",\n" +
                 "    \"status\": \"active\"\n" +
                 "}";
-        createUser(body)
+        new UsersClient().createUsers(body)
                 .then()
                 .statusCode(201)
                 .log().body()
                 .body("id", Matchers.notNullValue())
-                .body("email",Matchers.equalTo("aditi.rao@gmail.com"));
+                .body("email",Matchers.equalTo("aditi.rao1@gmail.com"));
     }
 
-    private Response createUser(String userInfo) {
-        return given()
-                .accept(JSON)
-                .contentType(JSON)
-                .header("Authorization", "Bearer 8ed75a51d163800b750d03c69dc9c1a94c7eedb2c06642ad5c8377904a0d1a91")
-                .body(userInfo)
-                .when()
-                .post("https://gorest.co.in/public/v2/users");
-    }
+
+
 }
