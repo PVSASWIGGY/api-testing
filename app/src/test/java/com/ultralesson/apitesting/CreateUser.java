@@ -3,42 +3,52 @@ package com.ultralesson.apitesting;
 import com.ultralesson.apitesting.users.UsersClient;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 
 public class CreateUser {
+    private UsersClient usersClient;
+    @BeforeClass
+    public void beforeClass(){
+        usersClient=new UsersClient();
+    }
     @Test
-    public void createFemaleUser(){
-        String body = "{\n" +
+    public void createMaleUser(){
+        String email= UUID.randomUUID()+"@gmail.com";
+        String body = String.format("{\n" +
                 "    \"name\": \"Tenali Ramakrishna\",\n" +
                 "    \"gender\": \"male\",\n" +
-                "    \"email\": \"tenali.ramakrishna5@gmail.com\",\n" +
+                "    \"email\": \"%s\",\n" +
                 "    \"status\": \"active\"\n" +
-                "}";
-        new UsersClient().createUsers(body)
+                "}",email);
+        usersClient.createUsers(body)
                 .then()
                 .statusCode(201)
                 .log().body()
                 .body("id", Matchers.notNullValue())
-                .body("email",Matchers.equalTo("tenali.ramakrishna5@gmail.com"));
+                .body("email",Matchers.equalTo(email));
     }
 
     @Test
     public void CreateFemaleUser(){
-        String body = "{\n" +
+        String email=UUID.randomUUID()+"@gmail.com";
+        String body = String.format("{\n" +
                 "    \"name\": \"Aditi Rao\",\n" +
                 "    \"gender\": \"male\",\n" +
-                "    \"email\": \"aditi.rao1@gmail.com\",\n" +
+                "    \"email\": \"%s\",\n" +
                 "    \"status\": \"active\"\n" +
-                "}";
+                "}",email);
         new UsersClient().createUsers(body)
                 .then()
                 .statusCode(201)
                 .log().body()
                 .body("id", Matchers.notNullValue())
-                .body("email",Matchers.equalTo("aditi.rao1@gmail.com"));
+                .body("email",Matchers.equalTo(email));
     }
 
 

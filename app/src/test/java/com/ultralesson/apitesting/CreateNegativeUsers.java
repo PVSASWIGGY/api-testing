@@ -2,9 +2,16 @@ package com.ultralesson.apitesting;
 
 import com.ultralesson.apitesting.users.UsersClient;
 import org.hamcrest.Matchers;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class CreateNegativeUsers {
+    private UsersClient usersClient;
+
+    @BeforeClass
+    public void beforeClass(){
+        usersClient=new UsersClient();
+    }
     @Test
     public void createInvalidUser(){
         String body = "{\n" +
@@ -13,7 +20,7 @@ public class CreateNegativeUsers {
                 "    \"email\": \"aditi.raogmail.com\",\n" +
                 "    \"status\": \"active\"\n" +
                 "}";
-        new UsersClient().createUsers(body)
+        usersClient.createUsers(body)
                 .then()
                 .log().body()
                 .statusCode(422)
