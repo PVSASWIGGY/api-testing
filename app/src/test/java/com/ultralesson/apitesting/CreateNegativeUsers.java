@@ -15,17 +15,10 @@ public class CreateNegativeUsers {
     }
     @Test
     public void createInvalidUser(){
-        String name="Aditi Rao";
-        String email="aditi.raogmail.com";
-        String gender="male";
-        String status="active";
-        String body = "{\n" +
-                "    \"name\":" +name+"\"\",\n" +
-                "    \"gender\":" +gender+"\",\n" +
-                "    \"email\":"+email+",\n" +
-                "    \"status\":"+status+ "\"\n" +
-                "}";
-        UserObject requestBody=new UserObject(name,email,gender,status);
+        UserObject requestBody=UserObject.builder()
+                .name("Aditi Rao").email("aditi.raogmail.com")
+                .gender("male").status("active")
+                .build();
         usersClient.createUsers(requestBody)
                 .then()
                 .log().body()

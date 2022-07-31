@@ -21,10 +21,10 @@ public class CreateUser {
     @Test
     public void createMaleUser(){
         String email= UUID.randomUUID()+"@gmail.com";
-        String name="Tenali Ramakrishna";
-        String gender="male";
-        String status="active";
-        UserObject requestBody=new UserObject(name,email,gender,status);
+        UserObject requestBody=UserObject.builder()
+                .name("Tenali Ramakrishna").email(email)
+                .gender("male").status("active")
+                .build();
         usersClient.createUsers(requestBody)
                 .then()
                 .statusCode(201)
@@ -36,10 +36,10 @@ public class CreateUser {
     @Test
     public void CreateFemaleUser(){
         String email=UUID.randomUUID()+"@gmail.com";
-        String name="Aditi Rao";
-        String gender="female";
-        String status="active";
-        UserObject requestBody=new UserObject(name,email,gender,status);
+        UserObject requestBody=UserObject.builder()
+                .name("Aditi Rao").email(email)
+                .gender("female").status("active")
+                .build();
         new UsersClient().createUsers(requestBody)
                 .then()
                 .statusCode(201)
