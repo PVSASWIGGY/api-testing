@@ -19,9 +19,8 @@ public class CreateNegativeUsers {
                 .name("Aditi Rao").email("aditi.raogmail.com")
                 .gender("male").status("active")
                 .build();
-        usersClient.createUsers(requestBody)
+        usersClient.create(requestBody)
                 .then()
-                .log().body()
                 .statusCode(422)
                 .body("field[0]", Matchers.equalTo("email"))
                 .body("message[0]",Matchers.equalTo("is invalid"));

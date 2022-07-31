@@ -1,9 +1,11 @@
 package com.ultralesson.apitesting;
 
 import com.ultralesson.apitesting.create.UserObject;
+import com.ultralesson.apitesting.create.UserObjectResponse;
 import com.ultralesson.apitesting.users.UsersClient;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -25,12 +27,10 @@ public class CreateUser {
                 .name("Tenali Ramakrishna").email(email)
                 .gender("male").status("active")
                 .build();
-        usersClient.createUsers(requestBody)
-                .then()
-                .statusCode(201)
-                .log().body()
-                .body("id", Matchers.notNullValue())
-                .body("email",Matchers.equalTo(email));
+        UserObjectResponse userObjectResponse = usersClient.createUsers(requestBody);
+        Assert.assertEquals(userObjectResponse.getStatusCode(),201);
+        Assert.assertNotNull(userObjectResponse.getId());
+        Assert.assertEquals(userObjectResponse.getEmail(),requestBody.getEmail());
     }
 
     @Test
@@ -40,12 +40,10 @@ public class CreateUser {
                 .name("Aditi Rao").email(email)
                 .gender("female").status("active")
                 .build();
-        new UsersClient().createUsers(requestBody)
-                .then()
-                .statusCode(201)
-                .log().body()
-                .body("id", Matchers.notNullValue())
-                .body("email",Matchers.equalTo(email));
+        UserObjectResponse userObjectResponse = usersClient.createUsers(requestBody);
+        Assert.assertEquals(userObjectResponse.getStatusCode(),201);
+        Assert.assertNotNull(userObjectResponse.getId());
+        Assert.assertEquals(userObjectResponse.getEmail(),requestBody.getEmail());
     }
 
 
