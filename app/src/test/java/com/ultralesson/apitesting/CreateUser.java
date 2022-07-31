@@ -3,16 +3,11 @@ package com.ultralesson.apitesting;
 import com.ultralesson.apitesting.create.UserObject;
 import com.ultralesson.apitesting.create.UserObjectResponse;
 import com.ultralesson.apitesting.users.UsersClient;
-import io.restassured.response.Response;
-import org.hamcrest.Matchers;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.UUID;
 
-import static io.restassured.RestAssured.given;
-import static io.restassured.http.ContentType.JSON;
 
 public class CreateUser {
     private UsersClient usersClient;
@@ -27,10 +22,10 @@ public class CreateUser {
                 .name("Tenali Ramakrishna").email(email)
                 .gender("male").status("active")
                 .build();
+
         UserObjectResponse userObjectResponse = usersClient.createUsers(requestBody);
-        Assert.assertEquals(userObjectResponse.getStatusCode(),201);
-        Assert.assertNotNull(userObjectResponse.getId());
-        Assert.assertEquals(userObjectResponse.getEmail(),requestBody.getEmail());
+
+        userObjectResponse.assertUser(requestBody);
     }
 
     @Test
@@ -40,12 +35,9 @@ public class CreateUser {
                 .name("Aditi Rao").email(email)
                 .gender("female").status("active")
                 .build();
+
         UserObjectResponse userObjectResponse = usersClient.createUsers(requestBody);
-        Assert.assertEquals(userObjectResponse.getStatusCode(),201);
-        Assert.assertNotNull(userObjectResponse.getId());
-        Assert.assertEquals(userObjectResponse.getEmail(),requestBody.getEmail());
+
+        userObjectResponse.assertUser(requestBody);
     }
-
-
-
 }
