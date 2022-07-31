@@ -1,5 +1,6 @@
 package com.ultralesson.apitesting;
 
+import com.ultralesson.apitesting.create.UserObject;
 import com.ultralesson.apitesting.users.UsersClient;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
@@ -20,13 +21,11 @@ public class CreateUser {
     @Test
     public void createMaleUser(){
         String email= UUID.randomUUID()+"@gmail.com";
-        String body = String.format("{\n" +
-                "    \"name\": \"Tenali Ramakrishna\",\n" +
-                "    \"gender\": \"male\",\n" +
-                "    \"email\": \"%s\",\n" +
-                "    \"status\": \"active\"\n" +
-                "}",email);
-        usersClient.createUsers(body)
+        String name="Tenali Ramakrishna";
+        String gender="male";
+        String status="active";
+        UserObject requestBody=new UserObject(name,email,gender,status);
+        usersClient.createUsers(requestBody)
                 .then()
                 .statusCode(201)
                 .log().body()
@@ -37,13 +36,11 @@ public class CreateUser {
     @Test
     public void CreateFemaleUser(){
         String email=UUID.randomUUID()+"@gmail.com";
-        String body = String.format("{\n" +
-                "    \"name\": \"Aditi Rao\",\n" +
-                "    \"gender\": \"male\",\n" +
-                "    \"email\": \"%s\",\n" +
-                "    \"status\": \"active\"\n" +
-                "}",email);
-        new UsersClient().createUsers(body)
+        String name="Aditi Rao";
+        String gender="female";
+        String status="active";
+        UserObject requestBody=new UserObject(name,email,gender,status);
+        new UsersClient().createUsers(requestBody)
                 .then()
                 .statusCode(201)
                 .log().body()

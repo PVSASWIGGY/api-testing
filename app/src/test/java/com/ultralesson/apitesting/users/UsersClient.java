@@ -1,5 +1,6 @@
 package com.ultralesson.apitesting.users;
 
+import com.ultralesson.apitesting.create.UserObject;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
@@ -7,7 +8,7 @@ import static io.restassured.http.ContentType.JSON;
 
 public class UsersClient {
 
-    public Response createUsers(String userInfo) {
+    public Response createUsers(UserObject userInfo) {
         return given()
                 .accept(JSON)
                 .contentType(JSON)
