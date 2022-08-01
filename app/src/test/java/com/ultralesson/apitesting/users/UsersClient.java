@@ -1,8 +1,12 @@
 package com.ultralesson.apitesting.users;
 
 import com.ultralesson.apitesting.create.UserObject;
+import com.ultralesson.apitesting.create.UserObjectErrorResponse;
 import com.ultralesson.apitesting.create.UserObjectResponse;
 import io.restassured.response.Response;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
@@ -15,6 +19,12 @@ public class UsersClient {
         userObjectResponse.setStatusCode(response.statusCode());
         return userObjectResponse;
 
+    }
+
+    public List<UserObjectErrorResponse> createNegativeUser(UserObject userInfo){
+        Response response=create(userInfo);
+        List<UserObjectErrorResponse> errorList= Arrays.stream(response.as(UserObjectErrorResponse[].class)).toList();
+        return errorList;
     }
 
     public Response create(UserObject userInfo) {
@@ -34,8 +44,14 @@ public class UsersClient {
 
 
     public Response getUsers() {
-        return given()
-                .when()
-                .get("https://gorest.co.in/public/v2/users");
+        Response response= given()
+                            .when()
+                            .get("https://gorest.co.in/public/v2/users");
+        return response;
+    }
+
+    public List<com.ultralesson.apitesting.get.UserObjectResponse> getUserObjectResponse(Response response) {
+        List<com.ultralesson.apitesting.get.UserObjectResponse> dataList=Arrays.stream(response.as(com.ultralesson.apitesting.get.UserObjectResponse[].class)).toList();
+        return dataList;
     }
 }
