@@ -1,23 +1,25 @@
 package com.ultralesson.apitesting;
 
-import com.ultralesson.apitesting.create.UserObjectErrorResponse;
-import com.ultralesson.apitesting.create.UserObject;
+import com.ultralesson.apitesting.users.create.UserObjectErrorResponse;
+import com.ultralesson.apitesting.users.create.UserObject;
 import com.ultralesson.apitesting.users.UsersClient;
+import com.ultralesson.apitesting.users.UsersService;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CreateNegativeUsers {
     private UsersClient usersClient;
+    private UsersService usersService;
 
     @BeforeClass
     public void beforeClass(){
         usersClient=new UsersClient();
+        usersService=new UsersService();
     }
 
     private void assertResponse(List<UserObjectErrorResponse> errorList, String field, String message){
@@ -30,24 +32,22 @@ public class CreateNegativeUsers {
     }
     @Test
     public void createUserWithInvalidEmail(){
-        UserObject requestBody=UserObject.builder()
-                .name("Aditi Rao").email("aditi.raogmail.com")
-                .gender("male").status("active")
+        UserObject requestBody= new UserObject.Builder()
+                .email("aditi.raogmail.com")
                 .build();
         Response response= usersClient.create(requestBody);
-        List<UserObjectErrorResponse> errorList=usersClient.createNegativeUser(requestBody);
+        List<UserObjectErrorResponse> errorList=usersService.createNegativeUser(requestBody);
         Assert.assertEquals(response.statusCode(),422);
         assertResponse(errorList,"email","is invalid");
     }
 
     @Test
     public void createUserWithBlankStatusAndGender(){
-        UserObject requestBody=UserObject.builder()
-                .name("Aditi Rao").email("aditi.rao23@gmail.com")
+        UserObject requestBody=new UserObject.Builder()
                 .gender("").status("")
                 .build();
         Response response= usersClient.create(requestBody);
-        List<UserObjectErrorResponse> errorList=usersClient.createNegativeUser(requestBody);
+        List<UserObjectErrorResponse> errorList=usersService.createNegativeUser(requestBody);
         assertResponse(errorList,"gender","can't be blank, can be male or female");
         assertResponse(errorList,"status","can't be blank");
         Assert.assertEquals(response.statusCode(),422);

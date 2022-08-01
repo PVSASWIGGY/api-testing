@@ -1,8 +1,8 @@
 package com.ultralesson.apitesting;
 
-import com.ultralesson.apitesting.create.UserObject;
-import com.ultralesson.apitesting.create.UserObjectResponse;
-import com.ultralesson.apitesting.users.UsersClient;
+import com.ultralesson.apitesting.users.create.UserObject;
+import com.ultralesson.apitesting.users.create.UserObjectResponse;
+import com.ultralesson.apitesting.users.UsersService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -10,20 +10,18 @@ import java.util.UUID;
 
 
 public class CreateUser {
-    private UsersClient usersClient;
+    private UsersService usersService;
     @BeforeClass
     public void beforeClass(){
-        usersClient=new UsersClient();
+        usersService=new UsersService();
     }
     @Test
     public void createMaleUser(){
         String email= UUID.randomUUID()+"@gmail.com";
-        UserObject requestBody=UserObject.builder()
-                .name("Tenali Ramakrishna").email(email)
-                .gender("male").status("active")
+        UserObject requestBody=new UserObject.Builder()
                 .build();
 
-        UserObjectResponse userObjectResponse = usersClient.createUsers(requestBody);
+        UserObjectResponse userObjectResponse = usersService.createUsers(requestBody);
 
         userObjectResponse.assertUser(requestBody);
     }
@@ -31,12 +29,11 @@ public class CreateUser {
     @Test
     public void CreateFemaleUser(){
         String email=UUID.randomUUID()+"@gmail.com";
-        UserObject requestBody=UserObject.builder()
-                .name("Aditi Rao").email(email)
-                .gender("female").status("active")
+        UserObject requestBody=new UserObject.Builder()
+                .gender("female")
                 .build();
 
-        UserObjectResponse userObjectResponse = usersClient.createUsers(requestBody);
+        UserObjectResponse userObjectResponse = usersService.createUsers(requestBody);
 
         userObjectResponse.assertUser(requestBody);
     }

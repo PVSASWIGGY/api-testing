@@ -1,4 +1,4 @@
-package com.ultralesson.apitesting.create;
+package com.ultralesson.apitesting.users.create;
 
 import lombok.Getter;
 import org.testng.Assert;
