@@ -7,6 +7,7 @@ import io.restassured.response.Response;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UsersService {
     public UserObjectResponse createUsers(UserObject userInfo) {
@@ -19,12 +20,12 @@ public class UsersService {
 
     public List<UserObjectErrorResponse> createNegativeUser(UserObject userInfo){
         Response response=new UsersClient().create(userInfo);
-        List<UserObjectErrorResponse> errorList= Arrays.stream(response.as(UserObjectErrorResponse[].class)).toList();
+        List<UserObjectErrorResponse> errorList= Arrays.stream(response.as(UserObjectErrorResponse[].class)).collect(Collectors.toList());
         return errorList;
     }
 
     public List<com.ultralesson.apitesting.users.get.UserObjectResponse> getUserObjectResponse(Response response) {
-        List<com.ultralesson.apitesting.users.get.UserObjectResponse> dataList=Arrays.stream(response.as(com.ultralesson.apitesting.users.get.UserObjectResponse[].class)).toList();
+        List<com.ultralesson.apitesting.users.get.UserObjectResponse> dataList=Arrays.stream(response.as(com.ultralesson.apitesting.users.get.UserObjectResponse[].class)).collect(Collectors.toList());
         return dataList;
     }
 
